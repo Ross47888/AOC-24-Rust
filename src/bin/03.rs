@@ -40,19 +40,19 @@ fn part_two(inp: &str) -> i32 {
     let mut sum = 0;
     combined.windows(2).for_each(|window| {
         if window[0].0 == true {
-            for i in &matches {
-                if i.0 > window[0].1 && i.0 < window[1].1 {
-                    sum += i.1;
-                }
-            }
+            sum += matches
+                .iter()
+                .filter(|i| i.0 > window[0].1 && i.0 < window[1].1)
+                .map(|i| i.1)
+                .sum::<i32>();
         }
     });
     if combined[combined.len() - 1].0 == true {
-        for i in matches {
-            if i.0 > combined[combined.len() - 1].1 {
-                sum += i.1;
-            }
-        }
+        sum += matches
+            .iter()
+            .filter(|i| i.0 > combined[combined.len() - 1].1)
+            .map(|i| i.1)
+            .sum::<i32>();
     }
     sum
 }
