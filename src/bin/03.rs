@@ -14,23 +14,21 @@ fn part_one(inp: &str) -> i32 {
 }
 
 fn part_two(inp: &str) -> i32 {
-    let dos = Regex::new(r"do\(\)")
+    let mut combined = Regex::new(r"do\(\)")
         .unwrap()
         .captures_iter(&inp)
         .map(|cap| (true, cap.get(0).unwrap().start()))
+        .chain(
+            Regex::new(r"don't\(\)")
+                .unwrap()
+                .captures_iter(inp)
+                .map(|cap| (false, cap.get(0).unwrap().start())),
+        )
+        .chain(vec![(true, 0)])
         .collect::<Vec<(bool, usize)>>();
-    let donts = Regex::new(r"don't\(\)")
-        .unwrap()
-        .captures_iter(inp)
-        .map(|cap| (false, cap.get(0).unwrap().start()))
-        .collect::<Vec<(bool, usize)>>();
-    let mut combined = dos
-        .into_iter()
-        .chain(donts.into_iter())
-        .collect::<Vec<(bool, usize)>>();
-    combined.push((true, 0));
     combined.sort_by_key(|&(_, x)| x);
-    let matches = Regex::new(r"mul\(([0-9]+),([0-9]+)\)").unwrap()
+    let matches = Regex::new(r"mul\(([0-9]+),([0-9]+)\)")
+        .unwrap()
         .captures_iter(inp)
         .map(|line| {
             (
