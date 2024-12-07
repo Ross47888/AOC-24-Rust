@@ -24,3 +24,13 @@ fn part_two(v0: &Vec<i32>, v2: &Vec<i32>) -> i32 {
         .map(|x| x * (v2.iter().filter(|y| *y == x).count() as i32))
         .sum()
 }
+
+
+fn part_two_efficiant(v0: &Vec<i32>, v2: &Vec<i32>) -> i32 {
+    // Want to traverse along v0 while it is same number, 
+    // count along v2 same number
+    // then continue along v0
+    for i in 0..v0.len() {
+    }
+    0
+}
